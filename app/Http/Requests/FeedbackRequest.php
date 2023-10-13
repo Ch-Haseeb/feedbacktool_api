@@ -24,7 +24,7 @@ class FeedbackRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'category' => 'required|string|in:bug report,feature request,improvement,other',
+            'category' => 'required|string',
             'attachment' => 'nullable|file|max:2048',
         ];
     }

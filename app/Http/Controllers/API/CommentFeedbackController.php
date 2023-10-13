@@ -10,6 +10,14 @@ use App\Http\Requests\CommentRequest;
 
 class CommentFeedbackController extends Controller
 {
+    public function index(){
+
+        $comments=Comment::with(['user','feedback'])->get();
+        return response()->json(['comment' => $comments]);
+
+
+    }
+
     public function store(CommentRequest $request, $feedbackId)
     {
         $feedback = Feedback::findOrFail($feedbackId);
