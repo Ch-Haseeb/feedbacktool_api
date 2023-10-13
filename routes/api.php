@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CommentFeedbackController;
 use App\Http\Controllers\API\FeedbackController;
+use App\Http\Controllers\API\StatisticsController;
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -30,6 +31,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/feedback/{id}/vote',  [FeedbackController::class, 'vote']);
 
+    Route::get('/feedback/comment', [CommentFeedbackController::class, 'index']);
+
     Route::post('/feedback/{id}/comment', [CommentFeedbackController::class, 'store']);
 
     Route::put('/feedback/{feedbackId}/comment/{commentId}', [CommentFeedbackController::class, 'update']);
@@ -41,4 +44,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/profile/update', [AuthController::class, 'update']);
 
     Route::get('/user_feedback', [AuthController::class, 'user_feedback']);
+
+  
 });
+Route::get('/statistics', [StatisticsController::class, 'countStatistics']);

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('feedback_id')->unsigned()->index();
             $table->foreign('feedback_id')->references('id')->on('feedbacks')->onDelete('cascade');
-            $table->enum('vote', ['0', '1']);
+            $table->tinyInteger('vote')->default(0);
             $table->timestamps();
         });
     }

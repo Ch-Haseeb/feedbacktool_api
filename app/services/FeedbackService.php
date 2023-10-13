@@ -35,7 +35,7 @@ class FeedbackService
 
     public function listFeedback($category = null, $sort = null)
     {
-        $query = Feedback::query();
+        $query = Feedback::with(['user', 'votes.user']);
 
         if ($category) {
             $query->where('category', $category);
