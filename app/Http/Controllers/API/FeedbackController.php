@@ -9,6 +9,7 @@ use App\Services\FeedbackService;
 use App\Models\Comment;
 use App\Models\Feedback;
 use App\Models\Vote;
+use Illuminate\Support\Facades\Log;
 
 class FeedbackController extends Controller
 {
@@ -35,9 +36,9 @@ class FeedbackController extends Controller
         $user = auth()->user();
         $data['user_id'] = $user->id;
         $result = $this->feedbackService->saveFeedback($data);
-  
+
         if ($result['success']) {
-         
+
 
             return response()->json([
                 'message' => 'Feedback submitted successfully',
@@ -78,24 +79,24 @@ class FeedbackController extends Controller
     }
 
     public function vote(Request $request, $id)
-{
-    $feedback = Feedback::findOrFail($id);
-    $user = auth()->user();
+    {
+        $feedback = Feedback::findOrFail($id);
+        $user = auth()->user();
 
 
-    if (!$feedback->hasVotedByUser($user)) {
-        $voteValue = $request->input('vote'); 
-        
-        $vote = new Vote(['user_id' => $user->id, 'vote' => $voteValue]);
-        $feedback->votes()->save($vote);
+        if (!$feedback->hasVotedByUser($user)) {
+            $voteValue = $request->input('vote');
+            Log::info("Vote Value: " . $voteValue);
 
 
-        return response()->json(['message' => 'Vote submitted successfully']);
+
+            $vote = new Vote(['user_id' => $user->id, 'vote' => $voteValue]);
+            $feedback->votes()->save($vote);
+
+
+            return response()->json(['message' => 'Vote submitted successfully']);
+        }
+
+        return response()->json(['message' => 'You have already voted on this feedback'], 422);
     }
-
-    return response()->json(['message' => 'You have already voted on this feedback']);
-}
-
-
-    
 }

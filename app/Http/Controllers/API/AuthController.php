@@ -74,6 +74,6 @@ class AuthController extends Controller
     {
         $user = $request->user();
         $feedbackItems = Feedback::where('user_id', $user->id)->paginate(10);
-        return response()->json(['feedback_items' => $feedbackItems]);
+        return response()->json(['feedback_items' => $feedbackItems,'user'=>$user]);
     }
 }
